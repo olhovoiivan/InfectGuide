@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InfectGuide v1.0</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;500;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="cyber-grid"></div>
+
+    <nav class="navbar">
+        <div class="container nav-content">
+            <div class="logo"><span>[</span> InfectGuide <span>]</span></div>
+            <ul class="nav-menu">
+                <li onclick="showSection('register')">AUTH_USER</li>
+                <li onclick="showSection('home')">DB_CATALOG</li>
+                <li onclick="showSection('checker')">ANALYZER</li>
+                <li onclick="showSection('about')">INFO</li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="hero-terminal">
+        <div class="container">
+            <h1 class="glitch" data-text="SYSTEM_ONLINE">SYSTEM_ONLINE</h1>
+            <p>>>> Ініціалізація бази даних інфекційних загроз...</p>
+        </div>
+    </header>
+
+    <main class="container">
+
+        <section id="register" class="section active">
+            <div class="terminal-tag">PROTOCOL: USER_REGISTRATION</div>
+            <div class="glass-panel">
+                <form id="registerForm" class="cyber-form">
+                    <div class="input-field">
+                        <label>F_NAME (Ім'я)</label>
+                        <input type="text" id="firstName" placeholder="Введіть Ваше Ім'я...">
+                    </div>
+                    <div class="input-field">
+                        <label>L_NAME (Прізвище)</label>
+                        <input type="text" id="lastName" placeholder="Введіть Ваше Прізвище...">
+                    </div>
+                    <div class="input-field">
+                        <label>EMAIL_ADDR</label>
+                        <input type="email" id="email" placeholder="user@network.com">
+                    </div>
+                    <div class="input-field">
+                        <label>PASS_HASH</label>
+                        <input type="password" id="password" placeholder="********">
+                    </div>
+                    <button type="submit" class="btn-cyber">EXECUTE_REGISTER</button>
+                    <p id="formMessage"></p>
+                </form>
+            </div>
+        </section>
+
+        <section id="home" class="section">
+            <div class="terminal-tag">DATABASE: INFECTIOUS_DISEASES</div>
+            <input type="text" id="searchInput" class="cyber-search" placeholder="Шукати в базі..." onkeyup="filterDiseases()">
+            <div id="diseasesGrid" class="grid"></div>
+        </section>
+
+        <section id="checker" class="section">
+            <div class="terminal-tag">ANALYZER: SYMPTOM_CHECK</div>
+            <div class="glass-panel">
+                <div id="symptomsList" class="symptoms-grid"></div>
+                <button onclick="checkSymptoms()" class="btn-cyber">
+                    <i class="fas fa-microscope"></i> ЗАПУСТИТИ ДІАГНОСТИКУ
+                </button>>
+            </div>
+            <div id="resultCards" class="grid" style="margin-top:30px;"></div>
+        </section>
+
+        <section id="about" class="section">
+            <div class="terminal-tag">SYSTEM_INFO</div>
+            <div class="glass-panel">
+                <p>InfectGuide v1.0 — Проєкт розроблено в рамках ЛР№1.</p>
+                <p>Технології: HTML5, CSS3, JavaScript.</p>
+                <p>Інформація на сайті InfectGuide носить виключно ознайомчий та довідковий характер, не призначена для встановлення діагнозу чи заміни професійної медичної консультації, тому у разі появи симптомів або підозри на інфекційне захворювання рекомендується обов’язково звернутися до кваліфікованого лікаря.</p>
+            </div>
+        </section>
+
+    </main>
+
+    <div id="modal" class="modal">
+        <div class="modal-content glass-panel">
+            <div id="modalBody"></div>
+            <button onclick="closeModal()" class="btn-cyber" style="margin-top:20px;">BACK_TO_SYSTEM</button>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
