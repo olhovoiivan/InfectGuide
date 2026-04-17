@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}InfectGuide{% endblock %}</title>
+
+    <style>
+        /* === RESET === */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: radial-gradient(circle at center, #0a1423, #02050a);
+            color: #fff;
+            min-height: 100vh;
+        }
+
+        /* === CENTER WRAPPER === */
+        .page-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* === CARD === */
+        .auth-card {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            background: rgba(10, 20, 35, 0.95);
+            padding: 30px 25px;
+            border-radius: 12px;
+            border: 1px solid #00d4ff;
+            box-shadow: 0 0 25px rgba(0, 212, 255, 0.2);
+            backdrop-filter: blur(10px);
+            animation: fadeIn 0.4s ease;
+        }
+
+        /* === ANIMATION === */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* === TITLE === */
+        h2 {
+            text-align: center;
+            color: #00d4ff;
+            margin-bottom: 20px;
+        }
+
+        /* === FORM === */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 13px;
+            color: #00d4ff;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #00d4ff;
+            background: #000;
+            color: #00d4ff;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #00ff9c;
+            box-shadow: 0 0 10px #00ff9c;
+        }
+
+        input:invalid {
+            border-color: #ff4d6d;
+        }
+
+        input:valid {
+            border-color: #00ff9c;
+        }
+
+        /* === BUTTON === */
+        .btn-register {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            background: linear-gradient(90deg, #00d4ff, #00ff9c);
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-register:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px #00d4ff;
+        }
+
+        /* === FOOTER === */
+        .auth-footer {
+            margin-top: 15px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        a {
+            color: #00d4ff;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-shadow: 0 0 8px #00d4ff;
+        }
+
+        /* === CLOSE BUTTON (опціонально) === */
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+        }
+
+        .close-btn a {
+            font-size: 18px;
+        }
+
+        .close-btn a:hover {
+            color: #ff4d6d;
+            text-shadow: 0 0 10px #ff4d6d;
+        }
+
+        /* === RESPONSIVE === */
+        @media (max-width: 480px) {
+            .auth-card {
+                padding: 20px;
+            }
+
+            input {
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="page-wrapper">
+    {% block content %}
+    {% endblock %}
+</div>
+
+</body>
+</html>

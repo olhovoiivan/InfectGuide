@@ -1,0 +1,178 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InfectGuide v1.0</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;500;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+
+<body>
+
+<div class="cyber-grid"></div>
+<div class="main-content">
+    {% block content %}
+    {% endblock %}
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+    <div class="container nav-content">
+        <div class="logo"><span class="span">[</span> InfectGuide <span class="span">]</span></div>
+
+        <ul class="nav-menu">
+            <li onclick="showSection('home')">DB</li>
+            <li onclick="showSection('checker')">ANALYZER</li>
+            <li onclick="showSection('about')">INFO</li>
+            <li><a href="/admin/" style="color: var(--neon-blue)">ADMIN</a></li>
+            <li><a href="{% url 'register' %}" class="nav-link">REGISTER</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero-terminal">
+    <div class="container hero-content">
+
+        <div class="hero-text">
+            <h1>SYSTEM_ONLINE</h1>
+            <p>>> База інфекцій підключена</p>
+            <p>>> Записів: {{ diseases|length }}</p>
+        </div>
+
+        <div class="hero-image-wrapper">
+            <img src="{% static 'image/img-header.png' %}" alt="">
+        </div>
+
+    </div>
+</header>
+
+<!-- MAIN -->
+<main class="container">
+
+    <!-- HOME -->
+    <section id="home" class="section active">
+
+        <input type="text"
+               id="searchInput"
+               placeholder="Пошук..."
+               onkeyup="filterDiseases()">
+
+        <div class="grid">
+
+            {% for disease in diseases %}
+            <div class="disease-card" data-name="{{ disease.name|lower }}">
+
+                {% if disease.image %}
+                    <img src="{{ disease.image.url }}" class="card-thumb">
+                {% endif %}
+
+                <div class="card-content">
+                    <h3>{{ disease.name }}</h3>
+
+                    <!-- 🔥 СИМПТОМИ -->
+                    <div style="margin-bottom: 10px;">
+                        {% for symptom in disease.symptoms.all %}
+                            <span style="
+                                font-size: 10px;
+                                color: #38bdf8;
+                                border: 1px solid #38bdf8;
+                                padding: 2px 5px;
+                                margin-right: 3px;
+                                display: inline-block;
+                                margin-bottom: 3px;
+                            ">
+                                #{{ symptom.name|upper }}
+                            </span>
+                        {% empty %}
+                            <span style="font-size:10px; opacity:0.5;">NO_SYMPTOMS</span>
+                        {% endfor %}
+                    </div>
+
+                    <p>{{ disease.description|truncatewords:15 }}</p>
+
+                    <button class="btn-cyber-small"
+                            onclick="showDiseaseDetails('{{ disease.id }}')">
+                        READ
+                    </button>
+                </div>
+
+            </div>
+            {% empty %}
+                <p>База порожня</p>
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+    <!-- CHECKER -->
+    <section id="checker" class="section">
+        <h2>SYMPTOM CHECK</h2>
+
+        <div id="symptomsList">
+            <div class="symptoms-picker" style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px;">
+    {% for symptom in symptoms %}
+        <label style="cursor: pointer; border: 1px solid #38bdf8; padding: 5px 10px; font-size: 12px;">
+            <input type="checkbox" name="symptom" value="{{ symptom.id }}">
+            {{ symptom.name|upper }}
+        </label>
+    {% endfor %}
+</div>
+        </div>
+
+        <button onclick="checkSymptoms()" class="btn-cyber-small">
+            ЗАПУСТИТИ
+        </button>
+
+        <div id="resultCards" class="grid"></div>
+
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="section">
+        <h2>INFO</h2>
+        <p>InfectGuide на Django</p>
+        <p>{{ info_disclaimer }}</p>
+    </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="footer">
+    <div class="container">
+        <p>InfectGuide © 2026</p>
+    </div>
+</footer>
+
+<!-- MODAL -->
+<div id="modal" style="
+    display:none;
+    position:fixed;
+    top:0; left:0;
+    width:100%; height:100%;
+    background:rgba(0,0,0,0.8);
+    justify-content:center;
+    align-items:center;
+">
+
+    <div style="
+        background:#111;
+        padding:20px;
+        border:1px solid #38bdf8;
+        max-width:500px;
+        width:90%;
+    ">
+        <div id="modalBody"></div>
+        <button onclick="closeModal()" class="btn-cyber-small">CLOSE</button>
+    </div>
+
+</div>
+
+<script src="{% static 'js/app.js' %}"></script>
+
+</body>
+</html>

@@ -1,0 +1,192 @@
+{% extends 'diseases/index.html' %}
+
+{% block content %}
+<div class="auth-overlay">
+    <div class="terminal-card">
+
+        <div class="close-btn">
+            <a href="/">✕</a>
+        </div>
+
+        <div class="terminal-header">
+            <span class="status-dot"></span>
+            <span>[ USER_REGISTRATION_PROTOCOL ]</span>
+        </div>
+
+        <form method="post" class="terminal-form">
+            {% csrf_token %}
+
+            <div class="form-fields-container">
+                {% for field in form %}
+                    <div class="field-group">
+                        <label for="{{ field.id_for_label }}">
+                            >> {{ field.label|upper }}
+                        </label>
+
+                        {# Django автоматично додасть name="username" тощо #}
+                        {{ field }}
+
+                        {% if field.help_text and not field.errors %}
+                            <div class="help-text">{{ field.help_text|safe }}</div>
+                        {% endif %}
+
+                        {% if field.errors %}
+                            <div class="error-text">
+                                {% for error in field.errors %}
+                                    ! ERROR: {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+
+            <button type="submit" class="execute-btn">
+                EXECUTE_SIGN_UP
+            </button>
+        </form>
+
+        <div class="terminal-footer">
+            Уже зареєстровані?
+            <a href="{% url 'login' %}">_RETURN_TO_LOGIN</a>
+        </div>
+
+    </div>
+</div>
+
+<style>
+/* === CSS RESET ДЛЯ ФОРМИ === */
+* { box-sizing: border-box; }
+
+/* === OVERLAY === */
+.auth-overlay {
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle at center, #0a1423 0%, #02050a 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    z-index: 1000;
+}
+
+/* === CARD === */
+.terminal-card {
+    position: relative;
+    background: rgba(10, 20, 35, 0.95);
+    border: 1px solid #00d4ff;
+    border-radius: 12px;
+    padding: 30px 25px;
+    width: 100%;
+    max-width: 420px;
+    box-shadow: 0 0 25px rgba(0, 212, 255, 0.2);
+    backdrop-filter: blur(10px);
+    font-family: 'Courier New', monospace;
+}
+
+/* CLOSE BUTTON */
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+}
+.close-btn a { color: #00d4ff; text-decoration: none; font-size: 20px; }
+.close-btn a:hover { color: #ff4d6d; }
+
+/* HEADER */
+.terminal-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #00d4ff;
+    margin-bottom: 25px;
+    justify-content: center;
+}
+
+.status-dot {
+    width: 10px; height: 10px;
+    background: #00ff9c;
+    border-radius: 50%;
+    animation: blink 1s infinite;
+}
+@keyframes blink { 50% { opacity: 0.3; } }
+
+/* FORM FIELDS */
+.form-fields-container {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.field-group {
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: #00d4ff;
+    font-size: 12px;
+}
+
+/* INPUTS & SELECTS */
+input, select {
+    width: 100% !important;
+    padding: 10px;
+    background: #000 !important;
+    border: 1px solid #00d4ff;
+    border-radius: 6px;
+    color: #00d4ff !important;
+    font-family: inherit;
+    outline: none;
+}
+
+input:focus, select:focus {
+    border-color: #00ff9c;
+    box-shadow: 0 0 8px rgba(0, 255, 156, 0.4);
+}
+
+/* HELP & ERROR TEXT */
+.help-text {
+    font-size: 10px;
+    color: #5a7d9a;
+    margin-top: 4px;
+    line-height: 1.2;
+}
+
+.error-text {
+    color: #ff4d6d;
+    font-size: 11px;
+    margin-top: 5px;
+    font-weight: bold;
+}
+
+/* BUTTON */
+.execute-btn {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(90deg, #00d4ff, #00ff9c);
+    border: none;
+    border-radius: 6px;
+    color: #000;
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: 0.3s;
+}
+
+.execute-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.6);
+}
+
+/* FOOTER */
+.terminal-footer {
+    text-align: center;
+    margin-top: 20px;
+    color: #6c8aa3;
+    font-size: 12px;
+}
+.terminal-footer a { color: #00d4ff; text-decoration: none; }
+</style>
+{% endblock %}
