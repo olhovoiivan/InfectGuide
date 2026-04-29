@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="analyzer-container" style="text-align: center;">
+    <div class="terminal-tag" style="background: #ff4d4d;">WARNING: DELETE_OPERATION</div>
+    <div class="analyzer-box" style="border-color: #ff4d4d;">
+        <h2 style="color: #ff4d4d;">ВИДАЛИТИ "{{ disease.name }}" БЕЗПОВОРОТНО?</h2>
+        <p style="color: #00d4ff;">Ця дія видалить усі зв'язки з симптомами в базі даних.</p>
+
+        <form method="POST">
+            {% csrf_token %}
+            <button type="submit" class="btn-execute-scan" style="border-color: #ff4d4d; color: #ff4d4d;">
+                ТАК, ВИДАЛИТИ_ОБ'ЄКТ
+            </button>
+            <a href="{% url 'home' %}" style="display: block; margin-top: 20px; color: #00d4ff;">_СКАСУВАТИ</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

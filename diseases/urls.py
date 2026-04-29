@@ -1,24 +1,28 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
-from django.conf import settings
-from django.conf.urls.static import static
 from . import views
 
 urlpatterns = [
     # 1. Головна сторінка
-    path('', views.disease_list, name='disease_list'),
+    path('', views.disease_list, name='home'),
 
-    # 2. Реєстрація (твоя функція з views.py)
+    # 2. Додавання
+    path('add/', views.add_disease_view, name='add_disease'),
+
+    # 3. Редагування
+    path('edit/<int:pk>/', views.edit_disease_view, name='edit_disease'),
+
+    # 4. Видалення
+    path('delete/<int:pk>/', views.delete_disease_view, name='delete_disease'),
+
+    # 5. Реєстрація
     path('register/', views.register_view, name='register'),
 
-    # 3. Вхід та Вихід (використовуємо стандартні класи Django)
+    # 6. Вхід та Вихід
     path('login/', auth_views.LoginView.as_view(template_name='diseases/login.html'), name='login'),
-    path('logout/', auth_views.LogoutView.as_view(next_page='disease_list'), name='logout'),
+    path('logout/', auth_views.LogoutView.as_view(next_page='home'), name='logout'),
 
-    # 4. API для модальних вікон
+    # 7. API
     path('api/disease/<int:id>/', views.disease_detail_api, name='disease_detail_api'),
+    path('api/check_symptoms/', views.check_symptoms, name='check_symptoms'),
 ]
-
-# Обслуговування картинок (Media), якщо ми в режимі розробки
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

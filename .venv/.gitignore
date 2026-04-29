@@ -1,0 +1,18 @@
+# Віртуальне середовище
+.venv/
+venv/
+env/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# База даних (краще не заливати на GitHub, щоб не затерти на Render)
+db.sqlite3
+
+# Медіа файли (якщо не хочеш забивати сховище картинками)
+media/
+
+# Налаштування PyCharm
+.idea/# created by virtualenv automatically
+
