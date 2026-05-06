@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block title %}InfectGuide v1.0 - Digital Terminal{% endblock %}
+
 {% block content %}
 <style>
     /* ГАРАНТОВАНА АДАПТИВНІСТЬ HERO-СЕКЦІЇ */
@@ -10,7 +12,7 @@
     }
     .hero-content {
         display: flex;
-        flex-direction: column-reverse; /* На мобільних картинка зверху */
+        flex-direction: column-reverse;
         gap: 30px;
         align-items: center;
         text-align: center;
@@ -25,7 +27,7 @@
     }
     .hero-image-wrapper {
         width: 100%;
-        max-width: 500px; /* Обмеження, щоб мікроскоп не був на весь екран */
+        max-width: 500px;
     }
     .hero-image-wrapper img {
         width: 100%;
@@ -34,22 +36,17 @@
         box-shadow: 0 0 25px rgba(0, 212, 255, 0.2);
     }
 
-    /* ДЕСКТОПНИЙ РЕЖИМ (ПК) */
     @media (min-width: 992px) {
         .hero-content {
-            flex-direction: row; /* Текст зліва, картинка справа */
+            flex-direction: row;
             text-align: left;
             justify-content: space-between;
         }
-        .hero-text {
-            flex: 1;
-        }
-        .hero-image-wrapper {
-            flex: 1.2;
-        }
+        .hero-text { flex: 1; }
+        .hero-image-wrapper { flex: 1.2; }
     }
 
-    /* АДАПТИВНА СІТКА КАРТОК */
+    /* АДАПТИВНА СІТКА КАРТОК (CSS GRID) */
     .grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -57,13 +54,13 @@
         width: 100%;
     }
 
-    /* СТИЛІ ДЛЯ СИМПТОМІВ (ВИПРАВЛЕННЯ ЗСУВУ) */
     .symptoms-grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
         gap: 12px;
         margin-bottom: 25px;
     }
+
     .cyber-checkbox-label {
         display: flex;
         align-items: center;
@@ -72,90 +69,71 @@
         border: 1px solid rgba(0, 212, 255, 0.2);
         cursor: pointer;
         min-height: 55px;
+        position: relative;
     }
+
     .checkbox-box {
         flex-shrink: 0;
         width: 18px;
         height: 18px;
         border: 2px solid #00d4ff;
         margin-right: 12px;
+        position: relative;
     }
+
     .symptom-name {
         font-size: 13px;
         color: #00d4ff;
         text-transform: lowercase;
     }
+
     .btn-cyber-small {
-    background: transparent; /* Прозорий фон */
-    color: #00d4ff; /* Синій текст */
-    border: 1px solid #00d4ff; /* Синя тонка рамка */
-    padding: 8px 20px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 12px;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-    margin-top: 20px;
-    display: inline-block;
-}
+        background: transparent;
+        color: #00d4ff;
+        border: 1px solid #00d4ff;
+        padding: 8px 20px;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 12px;
+        font-weight: 500;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 20px;
+        display: inline-block;
+    }
 
-/* Ефект при наведенні (світловий імпульс) */
-.btn-cyber-small:hover {
-    background: rgba(0, 212, 255, 0.1);
-    color: #00ff9c; /* Зміна кольору на зелений при наведенні */
-    border-color: #00ff9c;
-    box-shadow: 0 0 15px rgba(0, 255, 156, 0.3); /* Неонове сяйво */
-    transform: translateY(-2px); /* Легке підняття */
-}
+    .btn-cyber-small:hover {
+        background: rgba(0, 212, 255, 0.1);
+        color: #00ff9c;
+        border-color: #00ff9c;
+        box-shadow: 0 0 15px rgba(0, 255, 156, 0.3);
+    }
 
-/* Активний стан (клік) */
-.btn-cyber-small:active {
-    transform: translateY(0);
-    box-shadow: 0 0 5px rgba(0, 255, 156, 0.5);
-}
+    /* СТИЛІЗАЦІЯ ЧЕКБОКСІВ */
+    .cyber-checkbox-label input[type="checkbox"]:checked + .checkbox-box {
+        background: #00ff9c;
+        border-color: #00ff9c;
+        box-shadow: 0 0 15px rgba(0, 255, 156, 0.5);
+    }
 
-/* 1. СТАН ПРИ ВИБОРІ (Зелений фон + Сяйво квадрата) */
-.cyber-checkbox-label input[type="checkbox"]:checked + .checkbox-box {
-    background: var(--green);
-    border-color: var(--green);
-    box-shadow: 0 0 15px rgba(0, 255, 156, 0.5);
-}
+    .checkbox-box::after {
+        content: '';
+        position: absolute;
+        opacity: 0;
+        width: 5px;
+        height: 10px;
+        border: solid #081224;
+        border-width: 0 2px 2px 0;
+        left: 4px;
+        top: 0px;
+        transform: scale(0) rotate(45deg);
+        transition: all 0.2s cubic-bezier(0.12, 0.4, 0.29, 1.46);
+    }
 
-/* МАЛЮЄМО АКУРАТНУ СИНЮ ГАЛОЧКУ ПО ЦЕНТРУ */
-.checkbox-box::after {
-    content: '';
-    position: absolute;
-    opacity: 0;
-
-    /* Зменшуємо розмір, щоб галка не вилазила */
-    width: 5px;  /* було 6 */
-    height: 10px; /* було 11 */
-
-    /* Колір та товщина лінії */
-    border: solid #9400D3;
-    border-width: 0 2px 2px 0; /* Робимо лінію трохи тоншою для витонченості */
-
-    /* ТОЧНЕ ЦЕНТРУВАННЯ (для квадрата 20x20) */
-    left: 6px;
-    top: 2px;
-
-    /* Анімація появи */
-    transform: scale(0) rotate(45deg);
-    transition: all 0.2s cubic-bezier(0.12, 0.4, 0.29, 1.46);
-
-    /* Легке сяйво самої галки */
-    filter: drop-shadow(0 0 1px var(--blue));
-}
-
-/* АКТИВАЦІЯ ПРИ КЛІКУ */
-.cyber-checkbox-label input[type="checkbox"]:checked + .checkbox-box::after {
-    opacity: 1;
-    transform: scale(1) rotate(45deg); /* Повертаємо масштаб до 1 */
-}
+    .cyber-checkbox-label input[type="checkbox"]:checked + .checkbox-box::after {
+        opacity: 1;
+        transform: scale(1) rotate(45deg);
+    }
 </style>
 
 <header class="hero-terminal">
@@ -167,7 +145,7 @@
 
             {% if is_staff %}
             <div style="margin-top: 25px;">
-                <a href="{% url 'add_disease' %}" class="btn-execute-scan" style="text-decoration: none; padding: 12px 25px; font-size: 14px; border: 2px solid #00ff9c; color: #00ff9c;">
+                <a href="{% url 'add_disease' %}" class="btn-execute-scan" style="text-decoration: none; padding: 12px 25px; font-size: 14px; border: 2px solid #00ff9c; color: #00ff9c; display: inline-block;">
                     + ADD_NEW_ENTRY
                 </a>
             </div>
@@ -200,12 +178,15 @@
                     <h3 style="display: flex; justify-content: space-between; align-items: center; color: #00d4ff; margin-bottom: 10px;">
                         {{ disease.name }}
 
-                        {% if is_staff %}
                         <div class="admin-controls">
-                            <a href="{% url 'edit_disease' disease.id %}" title="Edit" style="color: #00d4ff; font-size: 11px; text-decoration: none; border: 1px solid #00d4ff; padding: 2px 5px;">[EDIT]</a>
-                            <a href="{% url 'delete_disease' disease.id %}" title="Delete" style="color: #ff4d6d; font-size: 11px; text-decoration: none; border: 1px solid #ff4d6d; padding: 2px 5px; margin-left: 5px;">[DEL]</a>
+                            {% if is_staff %}
+                                <a href="{% url 'edit_disease' disease.id %}" title="Edit" style="color: #00d4ff; font-size: 11px; text-decoration: none; border: 1px solid #00d4ff; padding: 2px 5px;">[EDIT]</a>
+                            {% endif %}
+
+                            {% if can_delete %}
+                                <a href="{% url 'delete_disease' disease.id %}" title="Delete" style="color: #ff4d6d; font-size: 11px; text-decoration: none; border: 1px solid #ff4d6d; padding: 2px 5px; margin-left: 5px;">[DEL]</a>
+                            {% endif %}
                         </div>
-                        {% endif %}
                     </h3>
 
                     <div class="symptoms-tags" style="margin-bottom: 15px;">
@@ -214,7 +195,7 @@
                         {% endfor %}
                     </div>
                     <p style="font-size: 13px; color: #9fdfff; margin-bottom: 20px;">{{ disease.description|truncatewords:15 }}</p>
-                    <button class="btn-cyber-small" onclick="showDiseaseDetails('{{ disease.id }}')" style="width: 100%; padding: 10px; background: transparent; border: 1px solid #00d4ff; color: #00d4ff; cursor: pointer; margin-top: auto;">READ_DATA</button>
+                    <button class="btn-cyber-small" onclick="showDiseaseDetails('{{ disease.id }}')" style="width: 100%;">READ_DATA</button>
                 </div>
             </div>
             {% empty %}
@@ -244,7 +225,21 @@
 </main>
 
 <script>
-// ФУНКЦІЇ ФІЛЬТРАЦІЇ ТА СОРТУВАННЯ (JS)
+/**
+ * Асинхронне отримання даних (RESTful API)
+ */
+async function showDiseaseDetails(id) {
+    try {
+        const response = await fetch(`/api/disease/${id}/`);
+        if (!response.ok) throw new Error('API Error');
+        const data = await response.json();
+        console.log("REST Data:", data);
+        // Тут виклик твоєї функції модального вікна
+    } catch (error) {
+        console.error('Fetch error:', error);
+    }
+}
+
 function filterDiseases() {
     let input = document.getElementById('searchInput').value.toLowerCase();
     let cards = document.getElementsByClassName('disease-card');

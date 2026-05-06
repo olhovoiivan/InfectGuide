@@ -1,0 +1,19 @@
+{
+  "name": "infectguide",
+  "version": "1.0.0",
+  "description": "Infectious disease guide with automated testing",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/olhovoiivan/InfectGuide.git"
+  },
+  "keywords": [],
+  "author": "Ivan Olhovoi",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^29.0.0"
+  }
+}

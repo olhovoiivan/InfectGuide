@@ -1,15 +1,20 @@
 from django import forms
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.forms import UserCreationForm
+from django.core.validators import MinLengthValidator  # Додаємо імпорт валідатора
 
 
-# Ми використовуємо стандартну форму Django для створення юзера,
-# але розширюємо її своїми полями.
 class RegisterForm(UserCreationForm):
-    # Додаємо поле пошти (воно обов'язкове)
+    # ВИПРАВЛЕННЯ КЕЙСУ №9: Перевизначаємо username з мінімальною довжиною 3
+    username = forms.CharField(
+        min_length=3,
+        max_length=150,
+        help_text="Мінімум 3 символи",
+        label="Ім'я користувача"
+    )
+
     email = forms.EmailField(required=True, label="Електронна пошта")
 
-    # Створюємо вибір ролей для твого медичного сайту
     ROLE_CHOICES = (
         ('user', 'Студент / Пацієнт'),
         ('doctor', 'Лікар (потребує модерації)'),

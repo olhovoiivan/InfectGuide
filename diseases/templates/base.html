@@ -149,7 +149,7 @@
 </footer>
 
 <script>
-    // Навігація між секціями (SPA підхід) [cite: 13, 57]
+    // Навігація між секціями (SPA підхід)
     function navigateToSection(id) {
         const target = document.getElementById(id);
         const menu = document.getElementById("main-nav");
@@ -179,7 +179,7 @@
         document.body.style.overflow = 'auto';
     }
 
-    // ДОДАНО: Сортування на стороні клієнта (Пункт 5) [cite: 24, 131]
+    // ДОДАНО: Сортування на стороні клієнта
     function sortDiseases(order) {
         const container = document.querySelector('.grid');
         const cards = Array.from(container.getElementsByClassName('disease-card'));
@@ -198,11 +198,11 @@
         if (hash === 'home' || hash === 'checker') {
             navigateToSection(hash);
         }
-        // Автоматичне приховування повідомлень через 3 секунди
+        // Автоматичне приховування повідомлень через 6 секунд
         setTimeout(() => {
             const msgs = document.querySelector('.django-messages');
             if(msgs) msgs.style.display = 'none';
-        }, 3000);
+        }, 6000);
     };
 </script>
 

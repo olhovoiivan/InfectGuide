@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const diagBtn = document.getElementById('run-diagnosis'); // Твоя кнопка
+    const diagBtn = document.getElementById('run-diagnosis'); // кнопка
     const resultsContainer = document.getElementById('diagnosis-results'); // Куди виводити результат
 
     diagBtn.addEventListener('click', function(e) {

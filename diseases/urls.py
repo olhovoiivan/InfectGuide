@@ -9,10 +9,10 @@ urlpatterns = [
     # 2. Додавання
     path('add/', views.add_disease_view, name='add_disease'),
 
-    # 3. Редагування
+    # 3. Редагування (ЗМІНЕНО НА _view)
     path('edit/<int:pk>/', views.edit_disease_view, name='edit_disease'),
 
-    # 4. Видалення
+    # 4. Видалення (ЗМІНЕНО НА _view)
     path('delete/<int:pk>/', views.delete_disease_view, name='delete_disease'),
 
     # 5. Реєстрація

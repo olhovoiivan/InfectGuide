@@ -273,15 +273,69 @@
 </div>
 
 <script>
-    function updateFileName(input) {
-        const display = document.getElementById('fileName');
-        if (input.files && input.files.length > 0) {
-            display.innerHTML = `> DETECTED: ${input.files[0].name}`;
-            display.style.color = "#00ff9c";
-        } else {
-            display.innerHTML = "SELECT_NEW_DATA_STREAM...";
-            display.style.color = "#6fa3c7";
+    <script>
+// 1. Функція для отримання CSRF-токена (необхідна для безпеки Django)
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
         }
     }
+    return cookieValue;
+}
+
+// 2. Оновлення назви файлу (залишаємо твою логіку)
+function updateFileName(input) {
+    const display = document.getElementById('fileName');
+    if (input.files && input.files.length > 0) {
+        display.innerHTML = `> DETECTED: ${input.files[0].name}`;
+        display.style.color = "#00ff9c";
+    } else {
+        display.innerHTML = "SELECT_NEW_DATA_STREAM...";
+        display.style.color = "#6fa3c7";
+    }
+}
+
+// 3. АСИНХРОННЕ ОНОВЛЕННЯ ЧЕРЕЗ МЕТОД PUT
+async function sendPutRequest(event, diseaseId) {
+    event.preventDefault(); // Зупиняємо стандартне перезавантаження форми
+
+    const formData = {
+        name: document.querySelector('input[name="name"]').value,
+        description: document.querySelector('textarea[name="description"]').value,
+        // Отримуємо масив ID вибраних симптомів
+        symptoms: Array.from(document.querySelectorAll('input[name="symptoms"]:checked')).map(cb => cb.value)
+    };
+
+    try {
+        const response = await fetch(`/edit/${diseaseId}/`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            body: JSON.stringify(formData)
+        });
+
+        if (response.ok) {
+            alert("SYSTEM_UPDATE: SUCCESSFUL (Method: PUT)");
+            window.location.href = '/';
+        } else {
+            const errorData = await response.json();
+            alert("ERROR: " + (errorData.error || "Update failed"));
+        }
+    } catch (error) {
+        console.error("Fetch error:", error);
+    }
+}
+
+// Прив'язуємо функцію до кнопки "Зберегти" (заміни button type="submit" на onclick)
+</script>
 </script>
 {% endblock %}
